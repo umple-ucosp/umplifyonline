@@ -11,11 +11,15 @@
         </tr>
 
         <?php foreach(Project::listOwners() as $owner) { ?>
-          <tr>
-            <td><?php echo $owner; ?></td>
-            <td></td>
-            <td></td>
-          </tr>
+          <?php foreach(Project::listProjects($owner) as $project) { ?>
+            <?php foreach(Project::listVersions($owner, $project) as $version) { ?>
+              <tr>
+                <td><?php echo $owner; ?></td>
+                <td><?php echo $project; ?></td>
+                <td><?php echo $version; ?></td>
+              </tr>
+            <?php } ?>
+          <?php } ?>
         <?php } ?>
       </table>
 

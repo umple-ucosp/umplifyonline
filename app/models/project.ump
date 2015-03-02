@@ -12,4 +12,22 @@ class Project
     return array_values($owners);
   }
 
+  public static function listProjects($ownerName, $umplifyDir = null)
+  {
+  	if ($umplifyDir == null) { $umplifyDir = getenv("UMPLIFY_DIR"); }
+    if ($umplifyDir == null) { $umplifyDir = "/data/umplify_projects"; }
+    $allDirs = scandir($umplifyDir . '/' . $ownerName);
+    $projects = array_filter($allDirs, function($d) { return !in_array($d, array(".","..",".DS_Store")); });
+    return array_values($projects);
+  }
+
+  public static function listVersions($ownerName, $projectName, $umplifyDir = null)
+  {
+  	if ($umplifyDir == null) { $umplifyDir = getenv("UMPLIFY_DIR"); }
+    if ($umplifyDir == null) { $umplifyDir = "/data/umplify_projects"; }
+    $allDirs = scandir($umplifyDir . '/' . $ownerName . '/' . $projectName);
+    $versions = array_filter($allDirs, function($d) { return !in_array($d, array(".","..",".DS_Store")); });
+    return array_values($versions);
+  }
+
 }
