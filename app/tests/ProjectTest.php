@@ -58,7 +58,35 @@ class ProjectTest extends UnitTestCase
   {
     $versions = Project::listVersions("myorg", "myproj", (dirname(__FILE__) . "/test_data/"));
     $expected = array("master", "v1");
-    $this->assertEqual($versions, $expected);
+    $this->assertEqual($expected, $versions);
+  }
+
+  public function test_getUmplifierScore2()
+  {
+    $score = Project::getUmplifierScore("yourname", "yourproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $expected = 2;
+    $this->assertEqual($expected, $score);
+  }
+
+  public function test_getUmplifierScore0()
+  {
+    $score = Project::getUmplifierScore("myorg", "myproj", "v1", (dirname(__FILE__) . "/test_data/"));
+    $expected = 0;
+    $this->assertEqual($expected, $score); 
+  }
+
+  public function test_getUmplifierScoreF()
+  {
+    $score = Project::getUmplifierScore("myorg", "myproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $expected = -1;
+    $this->assertEqual($expected, $score);
+  }
+
+  public function test_getUmplifierScoreNA()
+  {
+    $score = Project::getUmplifierScore("myorg", "otherproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $expected = null;
+    $this->assertEqual($expected, $score);
   }
 
 }

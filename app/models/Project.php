@@ -62,5 +62,31 @@ class Project
     return array_values($versions);
   }
 
+// line 33 project.ump
+  public static function getUmplifierScore ($ownerName, $projectName, $projectVersion, $umplifyDir = null) 
+  {
+    if ($umplifyDir == null) { $umplifyDir = getenv("UMPLIFY_DIR"); }
+    if ($umplifyDir == null) { $umplifyDir = "/data/umplify_projects"; }
+    $dirPath = $umplifyDir . '/' . $ownerName . '/' . $projectName . '/' . $projectVersion . '/';
+
+    if (file_exists($dirPath . "2.umplify.score"))
+    {
+      return 2;
+    }
+    elseif (file_exists($dirPath . "1.umplify.score")) {
+      return 1;
+    }
+    elseif (file_exists($dirPath . "0.umplify.score")) {
+      return 0;
+    }
+    elseif (file_exists($dirPath . "F.umplify.score")) {
+      return -1;
+    }
+    else
+    {
+      return null;
+    }
+  }
+
 }
 ?>

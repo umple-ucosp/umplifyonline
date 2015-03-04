@@ -8,15 +8,18 @@
           <th>Owner</th>
           <th>Project</th>
           <th>Version</th>
+          <th>Umplifier Score</th>
         </tr>
 
         <?php foreach(Project::listOwners() as $owner) { ?>
           <?php foreach(Project::listProjects($owner) as $project) { ?>
-            <?php foreach(Project::listVersions($owner, $project) as $version) { ?>
+            <?php foreach(Project::listVersions($owner, $project) as $version) { 
+              $umplifierScore = Project::getUmplifierScore($owner, $project, $version) ?>
               <tr>
                 <td><?php echo $owner; ?></td>
                 <td><?php echo $project; ?></td>
                 <td><?php echo $version; ?></td>
+                <td><?php echo $umplifierScore; ?></td>
               </tr>
             <?php } ?>
           <?php } ?>
