@@ -1,6 +1,11 @@
 # umplifyonline
 A web UI to show what has been umplified
 
+## Generating PHP Files With Umple
+
+1. Grab the Umple command line compiler tool (https://github.com/umple/Umple/releases/latest)
+2. Use Umple to generate PHP files: `java -jar -g Php model.ump`
+
 ## Running UmplifyOnline During Development
 (Requires PHP 5.4+)
 
