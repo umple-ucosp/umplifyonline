@@ -7,20 +7,24 @@
         <tr>
           <th>Owner</th>
           <th>Project</th>
+          <th>Branch</th>
           <th>Version</th>
           <th>Umplifier Score</th>
         </tr>
 
         <?php foreach(Project::listOwners() as $owner) { ?>
           <?php foreach(Project::listProjects($owner) as $project) { ?>
-            <?php foreach(Project::listVersions($owner, $project) as $version) { 
-              $umplifierScore = Project::getUmplifierScore($owner, $project, $version) ?>
-              <tr>
-                <td><?php echo $owner; ?></td>
-                <td><?php echo $project; ?></td>
-                <td><?php echo $version; ?></td>
-                <td><?php echo $umplifierScore; ?></td>
-              </tr>
+            <?php foreach(Project::listBranches($owner, $project) as $branch) { ?>
+              <?php foreach(Project::listVersions($owner, $project, $branch) as $version){ 
+                $umplifierScore = Project::getUmplifierScore($owner, $project, $branch, $version) ?>
+                <tr>
+                  <td><?php echo $owner; ?></td>
+                  <td><?php echo $project; ?></td>
+                  <td><?php echo $branch; ?></td>
+                  <td><?php echo $version; ?></td>
+                  <td><?php echo $umplifierScore; ?></td>
+                </tr>
+              <?php } ?>
             <?php } ?>
           <?php } ?>
         <?php } ?>

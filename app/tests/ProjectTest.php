@@ -33,11 +33,18 @@ class ProjectTest extends UnitTestCase
     $this->assertEqual($expected, $projects);
   }
 
+  public function test_defaultListBranches()
+  {
+    $branches = Project::listBranches("myorg", "myproj");
+    $expected = array("master", "stable");
+    $this->assertEqual($expected, $branches);
+  }
+
   public function test_defaultListVersions()
   {
-    $projects = Project::listVersions("myorg", "myproj");
-    $expected = array("master", "v1");
-    $this->assertEqual($expected, $projects);
+    $versions = Project::listVersions("myorg", "myproj", "master");
+    $expected = array("v1", "v2");
+    $this->assertEqual($expected, $versions);
   }
 
   public function test_listOwners()
@@ -54,37 +61,51 @@ class ProjectTest extends UnitTestCase
     $this->assertEqual($expected, $projects);
   }
 
+  public function test_listBranches()
+  {
+    $branches = Project::listBranches("myorg", "myproj", (dirname(__FILE__) . "/test_data/"));
+    $expected = array("master", "stable");
+    $this->assertEqual($expected, $branches);
+  }
+
   public function test_listVersions()
   {
-    $versions = Project::listVersions("myorg", "myproj", (dirname(__FILE__) . "/test_data/"));
-    $expected = array("master", "v1");
+    $versions = Project::listVersions("myorg", "myproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $expected = array("v1", "v2");
     $this->assertEqual($expected, $versions);
   }
 
   public function test_getUmplifierScore2()
   {
-    $score = Project::getUmplifierScore("yourname", "yourproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $score = Project::getUmplifierScore("yourname", "yourproj", "master", "v1", (dirname(__FILE__) . "/test_data/"));
     $expected = 2;
     $this->assertEqual($expected, $score);
   }
 
+  public function test_getUmplifierScore1()
+  {
+    $score = Project::getUmplifierScore("myorg", "myproj", "master", "v2", (dirname(__FILE__) . "/test_data/"));
+    $expected = 1;
+    $this->assertEqual($expected, $score); 
+  }
+
   public function test_getUmplifierScore0()
   {
-    $score = Project::getUmplifierScore("myorg", "myproj", "v1", (dirname(__FILE__) . "/test_data/"));
+    $score = Project::getUmplifierScore("myorg", "myproj", "stable", "v1", (dirname(__FILE__) . "/test_data/"));
     $expected = 0;
     $this->assertEqual($expected, $score); 
   }
 
   public function test_getUmplifierScoreF()
   {
-    $score = Project::getUmplifierScore("myorg", "myproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $score = Project::getUmplifierScore("myorg", "myproj", "master", "v1", (dirname(__FILE__) . "/test_data/"));
     $expected = -1;
     $this->assertEqual($expected, $score);
   }
 
   public function test_getUmplifierScoreNA()
   {
-    $score = Project::getUmplifierScore("myorg", "otherproj", "master", (dirname(__FILE__) . "/test_data/"));
+    $score = Project::getUmplifierScore("myorg", "otherproj", "master", "v1", (dirname(__FILE__) . "/test_data/"));
     $expected = null;
     $this->assertEqual($expected, $score);
   }
